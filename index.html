@@ -3,7 +3,6 @@
 <head>
     <title>ShapeText Widget Example</title>
     <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
 
     <script src="shapetext.js"></script>
@@ -11,14 +10,14 @@
 <body>
 
 <div ng-app="myMod">
-    <input id="myText"
+    <input ng-model="model.myText"
            type="text" placeholder="Type here!" />
     <div>
         <svg width="500" height="200">
-          <rect shape-text="#myText"
+          <rect shape-text="{{ model.myText }}"
                 x="0" y="20"
                 fill="lightblue" />
-          <circle shape-text="#myText"
+          <circle shape-text="{{ model.myText }}"
                   cx="150" cy="50" r="10" fill="lightgreen" />
         </svg>
     </div>
