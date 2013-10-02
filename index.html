@@ -4,27 +4,28 @@
     <title>ShapeText Widget Example</title>
     <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
 
     <script src="shapetext.js"></script>
 </head>
 <body>
 
-<div>
+<div ng-app="myMod">
     <input id="myText"
            type="text" placeholder="Type here!" />
     <div>
         <svg width="500" height="200">
-          <rect class="text-from-model" data-model="#myText"
+          <rect shape-text="#myText"
                 x="0" y="20"
                 fill="lightblue" />
-          <circle class="text-from-model" data-model="#myText"
+          <circle shape-text="#myText"
                   cx="150" cy="50" r="10" fill="lightgreen" />
         </svg>
     </div>
 </div>
 
 <script type="text/javascript">
-      $('.text-from-model').shapeText();
+  // No init logic needed here!
 </script>
 
 </body>

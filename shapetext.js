@@ -1,12 +1,16 @@
-/* globals $, d3 */
+/* globals d3, angular */
+angular.module('myMod', [])
 
-$.fn.shapeText = function () {
+.directive('shapeText', function () {
 
-  return this.each(function () {
-    var $element = $(this),
-        d3element = d3.select($element[0]),
-        modelSelector = $element.data('model'),
-        $model = $(modelSelector);
+  return {
+    link: linkFn
+  };
+
+  function linkFn(scope, $element, iAttrs) {
+    var d3element = d3.select($element[0]),
+        modelSelector = iAttrs.shapeText,
+        $model = angular.element(modelSelector);
 
     // Set up text field
     var d3text = setupTextField($element);
@@ -33,7 +37,7 @@ $.fn.shapeText = function () {
     };
 
     $model.on('input change', changeFn);
-  });
+  }
 
   function setupTextField($element) {
 
@@ -82,4 +86,4 @@ $.fn.shapeText = function () {
     return updateSizeFn;
   }
 
-};
+});
