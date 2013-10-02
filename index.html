@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ShapeText Widget Example</title>
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
+    <script src="shapetext.js"></script>
+</head>
+<body>
+
+<div>
+    <input id="myText"
+           type="text" placeholder="Type here!" />
+    <div>
+        <svg width="500" height="200">
+          <rect class="text-from-model" data-model="#myText"
+                x="0" y="20"
+                fill="lightblue" />
+        </svg>
+    </div>
+</div>
+
+<script type="text/javascript">
+      $('.text-from-model').shapeText();
+</script>
+
+</body>
+</html>
