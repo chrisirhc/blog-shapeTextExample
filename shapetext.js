@@ -1,9 +1,10 @@
 /* globals d3, angular */
 angular.module('myMod', [])
 
-.directive('shapeText', function () {
+.directive('rect', function () {
 
   return {
+    restrict: 'E',
     link: linkFn
   };
 
@@ -13,15 +14,7 @@ angular.module('myMod', [])
     // Set up text field
     var d3text = setupTextField(iElement);
 
-    // Set up update functions depending on type of element
-    var updateSizeFn;
-    if (iElement[0].tagName == 'rect') {
-      updateSizeFn = rectUpdateSizeFn(d3element, d3text);
-    } else if (iElement[0].tagName == 'circle') {
-      updateSizeFn = circleUpdateSizeFn(d3element, d3text);
-    } else {
-      throw new Error('shapeText called on unsupported element');
-    }
+    var updateSizeFn = rectUpdateSizeFn(d3element, d3text);
 
     var changeFn = function (val) {
       // Update text
@@ -66,6 +59,51 @@ angular.module('myMod', [])
     }
 
     return updateSizeFn;
+  }
+
+})
+
+.directive('circle', function () {
+
+  return {
+    restrict: 'E',
+    link: linkFn
+  };
+
+  function linkFn(scope, iElement, iAttrs) {
+    var d3element = d3.select(iElement[0]);
+
+    // Set up text field
+    var d3text = setupTextField(iElement);
+
+    var updateSizeFn = circleUpdateSizeFn(d3element, d3text);
+
+    var changeFn = function (val) {
+      // Update text
+      d3text.text(val);
+
+      // Get bounding box
+      var bbox = d3text.node().getBBox();
+
+      // Update sizes
+      updateSizeFn(bbox);
+    };
+
+    iAttrs.$observe('shapeText', changeFn);
+  }
+
+  function setupTextField($element) {
+
+    var d3element = d3.select($element[0].parentNode),
+        bbox = $element[0].getBBox(),
+
+        d3text = d3element.append('text')
+        .attr('font-size', 16)
+        .attr('font-family', 'Arial')
+        .attr('x', bbox.x)
+        .attr('y', bbox.y);
+
+    return d3text;
   }
 
   function circleUpdateSizeFn(d3element, d3text) {
