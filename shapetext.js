@@ -4,24 +4,19 @@ angular.module('myMod', [])
 .directive('shapeText', function () {
 
   return {
+    controller: shapeTextController,
     link: linkFn
   };
 
-  function linkFn(scope, iElement, iAttrs) {
+  function shapeTextController() {
+    this.$render = angular.noop;
+  }
+
+  function linkFn(scope, iElement, iAttrs, ctrl) {
     var d3element = d3.select(iElement[0]);
 
     // Set up text field
     var d3text = setupTextField(iElement);
-
-    // Set up update functions depending on type of element
-    var updateSizeFn;
-    if (iElement[0].tagName == 'rect') {
-      updateSizeFn = rectUpdateSizeFn(d3element, d3text);
-    } else if (iElement[0].tagName == 'circle') {
-      updateSizeFn = circleUpdateSizeFn(d3element, d3text);
-    } else {
-      throw new Error('shapeText called on unsupported element');
-    }
 
     var changeFn = function (val) {
       // Update text
@@ -31,7 +26,7 @@ angular.module('myMod', [])
       var bbox = d3text.node().getBBox();
 
       // Update sizes
-      updateSizeFn(bbox);
+      ctrl.$render(d3text, bbox);
     };
 
     iAttrs.$observe('shapeText', changeFn);
@@ -51,37 +46,56 @@ angular.module('myMod', [])
     return d3text;
   }
 
-  function rectUpdateSizeFn(d3element, d3text) {
+})
+
+.directive('rect', function () {
+
+  return {
+    restrict: 'E',
+    require: '?shapeText',
+    link: linkFn
+  };
+
+  function linkFn(scope, iElement, iAttrs, shapeTextCtrl) {
+    if (!shapeTextCtrl) return;
 
     // Get position of element
-    var x = +d3element.attr('x'), y = +d3element.attr('y');
+    var x = +iAttrs.x, y = +iAttrs.y;
 
-    function updateSizeFn(bbox) {
+    shapeTextCtrl.$render = function (d3text, bbox) {
       d3text
         .attr('x', x)
         .attr('y', y + bbox.height);
-      d3element
+      iElement
         .attr('width', bbox.width)
         .attr('height', bbox.height + 5);
-    }
-
-    return updateSizeFn;
+    };
   }
 
-  function circleUpdateSizeFn(d3element, d3text) {
+})
+
+.directive('circle', function () {
+
+  return {
+    restrict: 'E',
+    require: '?shapeText',
+    link: linkFn
+  };
+
+  function linkFn(scope, iElement, iAttrs, shapeTextCtrl) {
+
+    if (!shapeTextCtrl) return;
 
     // Get position of element
-    var x = +d3element.attr('cx'), y = +d3element.attr('cy');
+    var x = +iAttrs.cx, y = +iAttrs.cy;
 
-    function updateSizeFn(bbox) {
+    shapeTextCtrl.$render = function (d3text, bbox) {
       d3text
         .attr('x', x - bbox.width / 2)
         .attr('y', y + 5);
-      d3element
+      iElement
         .attr('r', bbox.width / 2 + 5);
-    }
-
-    return updateSizeFn;
+    };
   }
 
 });
