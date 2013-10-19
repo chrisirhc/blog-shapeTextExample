@@ -8,6 +8,8 @@
 
   <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.3.3/d3.js" charset="utf-8"></script>
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
+
   <script src="//code.jquery.com/qunit/qunit-1.12.0.js"></script>
   <script src="shapetext.js"></script>
 </head>
@@ -17,13 +19,14 @@
   <div id="qunit"></div>
   
   <div id="qunit-fixture">
-    <div>
+    <div ng-app="myMod">
       <input id="myText" type="text" placeholder="Text here!" />
       <svg width="500" height="200">
-        <rect class="text-from-model" data-model="#myText"
+        <rect shape-text="#myText"
               x="0" y="20" fill="lightblue" />
-        <circle class="text-from-model" data-model="#myText"
+        <circle shape-text="#myText"
                 cx="150" cy="50" r="0" fill="lightgreen" />
+        <ellipse shape-text="#myText" />
       </svg>
     </div>
   </div>
