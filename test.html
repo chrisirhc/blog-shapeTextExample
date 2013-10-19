@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>ShapeText Widget Example</title>
+
+  <link rel="stylesheet" href="http://code.jquery.com/qunit/qunit-1.12.0.css" />
+
+  <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+  <script src="//code.jquery.com/qunit/qunit-1.12.0.js"></script>
+  <script src="shapetext.js"></script>
+</head>
+<body>
+
+<div>
+  <div id="qunit"></div>
+  
+  <div id="qunit-fixture">
+    <div>
+        <input id="myText" type="text" placeholder="Text here!" />
+        <svg width="500" height="200">
+          <rect class="text-from-model" data-model="#myText"
+                x="0" y="20"
+                fill="lightblue" />
+        </svg>
+    </div>
+  </div>
+
+  <script src="tests.js"></script>
+</div>
+
+</body>
+</html>
