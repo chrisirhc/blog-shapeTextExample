@@ -18,3 +18,13 @@ test("binding basics", function(){
 	equal(rect.attr('height'), 23);
 	equal(circle.attr('r'), 35.5);
 });
+
+test('exceptional svg', function(){
+	try {
+		$('<svg><ellipse /></svg>').find('ellipse').shapeText();
+		equal(false, true, 'Should have thrown exception');
+	}
+	catch (e) {
+		equal(e.message, 'shapeText called on unsupported element');
+	}
+});
